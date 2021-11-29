@@ -1,2 +1,2 @@
-# Dauphine_Project_Loop
+# Projet Infinity Loop - Dauphine 2021
 
