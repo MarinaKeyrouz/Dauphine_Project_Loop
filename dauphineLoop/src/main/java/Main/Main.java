@@ -31,13 +31,13 @@ public class Main {
 	private static Integer algo = 2;
 	
 	public static void main(String[] args) {
+		System.out.println("g");
 		Options options = new Options();
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
         
         options.addOption("g", "generate ", true, "Generate a grid of size height x width.");
         options.addOption("c", "check", true, "Check whether the grid in <arg> is solved.");
-        
         options.addOption("s", "solve", true, "Solve the grid stored in <arg>.");   
         options.addOption("o", "output", true, "Store the generated or solved grid in <arg>. (Use only with --generate and --solve.)");
         options.addOption("t", "threads", true, "Maximum number of solver threads. (Use only with --solve.)");
@@ -45,7 +45,7 @@ public class Main {
         options.addOption("h", "help", false, "Display this help");
         
         try {
-            cmd = parser.parse( options, args);         
+            cmd = parser.parse(options, args);         
         } catch (ParseException e) {
             System.err.println("Error: invalid command line format.");
             HelpFormatter formatter = new HelpFormatter();
@@ -59,8 +59,8 @@ public class Main {
             String[] gridformat = cmd.getOptionValue( "g" ).split("x");
             width = Integer.parseInt(gridformat[0]);
             height = Integer.parseInt(gridformat[1]); 
-            if(! cmd.hasOption("o")) throw new ParseException("Missing mandatory --output argument.");
-            outputFile = cmd.getOptionValue( "o" );
+//            if(! cmd.hasOption("o")) throw new ParseException("Missing mandatory --output argument.");
+//            outputFile = cmd.getOptionValue( "o" );
 
             // generate grid and store it to outputFile...
             //...            
