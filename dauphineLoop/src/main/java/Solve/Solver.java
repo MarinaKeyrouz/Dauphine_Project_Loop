@@ -17,4 +17,18 @@ public class Solver {
 		// To be implemented
 
 	}
+
+	public static Object optimization(Grid grille) {
+		//to be done
+		return null;
+	}
+
+	public void solveGrid(Piece piece, Object optimization) {
+		//to be done
+	}
+
+	public boolean getSolvedGrid() {
+		//to be done
+		return false;
+	}
 }

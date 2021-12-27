@@ -1,11 +1,11 @@
 package GUI;
 
 
-import java.util.EnumSet;
-import java.util.HashMap;
-
 import Components.Orientation;
 import Components.PieceType;
+
+import java.util.EnumSet;
+import java.util.HashMap;
 
 /**
  * Singleton for building a correspondance table with type, orientation and
@@ -18,7 +18,7 @@ public class DisplayUnicode {
 
 	/**
 	 * Private Constructor you can't build the table from outside
-	 * 
+	 *
 	 */
 	private DisplayUnicode() {
 		buildTable();
@@ -67,7 +67,7 @@ public class DisplayUnicode {
 
 	/**
 	 * Access point
-	 * 
+	 *
 	 * @return a unicode character
 	 */
 	public static String getUnicodeOfPiece(PieceType pt, Orientation ori) {

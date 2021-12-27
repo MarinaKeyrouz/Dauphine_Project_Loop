@@ -39,9 +39,9 @@ public class Piece {
 	public Piece(int posY, int posX, int typeValue, int orientationValue) {
 		this.posX = posX;
 		this.posY = posY;
-		this.type = PieceType.getTypefromValue(typeValue);
-		this.orientation = type.getOrientation(Orientation.getOrifromValue(orientationValue));
-		this.connectors = type.setConnectorsList(Orientation.getOrifromValue(orientationValue));
+		this.type = PieceType.getTypeFromValue(typeValue);
+		this.orientation = type.getOrientation(Orientation.getOriFromValue(orientationValue));
+		this.connectors = type.setConnectorsList(Orientation.getOriFromValue(orientationValue));
 		this.isFixed = false;
 		this.possibleOrientations = type.getListOfPossibleOri();
 	}
@@ -55,7 +55,7 @@ public class Piece {
 	}
 
 	public LinkedList<Orientation> getInvPossibleOrientation() {
-		LinkedList<Orientation> invPossibleOrientations = new LinkedList<Orientation>();
+		LinkedList<Orientation> invPossibleOrientations = new LinkedList<>();
 		for (Orientation ori : this.getPossibleOrientations()) {
 			invPossibleOrientations.addFirst(ori);
 		}
@@ -98,10 +98,11 @@ public class Piece {
 
 	public void setType(PieceType type) {
 		this.type = type;
+		this.possibleOrientations = type.getListOfPossibleOri();
 	}
 
 	public void setOrientation(int orientationValue) {
-		this.orientation = type.getOrientation(Orientation.getOrifromValue(orientationValue));
+		this.orientation = type.getOrientation(Orientation.getOriFromValue(orientationValue));
 		this.connectors = type.setConnectorsList(this.orientation);
 	}
 
@@ -156,7 +157,27 @@ public class Piece {
 		this.orientation = type.getOrientation(orientation.turn90());
 		this.connectors = type.setConnectorsList(orientation);
 	}
-
+	public static int getIntTypeFromPiece(Piece piece){
+		int temp = 0;
+		switch(piece.getType()){
+			case ONECONN -> {
+				temp = 1;
+			}
+			case BAR -> {
+				temp = 2;
+			}
+			case TTYPE -> {
+				temp = 3;
+			}
+			case FOURCONN -> {
+				temp = 4;
+			}
+			case LTYPE -> {
+				temp = 5;
+			}
+		}
+		return temp;
+	}
 	@Override
 	public String toString() {
 		String s = "[" + this.getPosY() + ", " + this.getPosX() + "] " + this.getType() + " ";
@@ -168,3 +189,4 @@ public class Piece {
 	}
 
 }
+
