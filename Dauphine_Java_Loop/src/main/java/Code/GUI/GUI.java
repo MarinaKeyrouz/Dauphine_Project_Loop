@@ -25,6 +25,7 @@ public class GUI implements ActionListener {
 	private int hp = 100; //height of the piece
 	JButton[][] buttons;
 	Grid grid;
+	Checker check;
 	/**
 	 *
 	 * @param inputFile
@@ -72,8 +73,11 @@ public class GUI implements ActionListener {
 	}
 
 
-	private void initialize() {
+	private void initialize() throws MalformedURLException {
 
+
+		//panel for buttons
+		JOptionPane.showMessageDialog(frame, "You Win!", "Winner winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	//method to create a gui for a grid
@@ -110,7 +114,13 @@ public class GUI implements ActionListener {
 		frame.setBackground(Color.white);
 		frame.add(buttonspanel);
 		frame.setVisible(true);
+
+//		Grid grid2 = Checker.buildGrid();
+//		System.out.println(grid2);
+//		System.out.println(Checker.isSolved(grid2));
 	}
+
+
 	//rotate each piece
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -124,12 +134,20 @@ public class GUI implements ActionListener {
 						//for each piece that was clicked on we get the image of it and put it in the buttons
 						ImageIcon icon = new ImageIcon(this.getIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
 						buttons[i][j].setIcon(icon);
+						check = new Checker();
+						boolean done = check.isSolved(grid);
+						if(done ==true){
+//						if(check.isWellConnectedAfterMove(i,j,grid,1)){
+							JOptionPane.showMessageDialog(frame, "You Win!", "Winner winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
+							break;
+						}
 					} catch (MalformedURLException ex) {
 						ex.printStackTrace();
 					}
 				}
 			}
 		}
+
 		frame.repaint();
 	}
 
