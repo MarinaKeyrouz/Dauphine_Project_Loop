@@ -90,7 +90,7 @@ public class GUI implements ActionListener {
 		for (int i = 0; i < grid.getHeight(); i++) {
 			for (int j = 0; j < grid.getWidth(); j++) {
 
-				ImageIcon icon = new ImageIcon(this.getImageIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
+				ImageIcon icon = new ImageIcon(this.getIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
 				JButton button = new JButton(icon);
 				button.setBackground(Color.white);
 				button.setOpaque(true);
@@ -122,7 +122,7 @@ public class GUI implements ActionListener {
 					grid.getPiece(i, j).turn();
 					try {
 						//for each piece that was clicked on we get the image of it and put it in the buttons
-						ImageIcon icon = new ImageIcon(this.getImageIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
+						ImageIcon icon = new ImageIcon(this.getIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
 						buttons[i][j].setIcon(icon);
 					} catch (MalformedURLException ex) {
 						ex.printStackTrace();
@@ -135,7 +135,7 @@ public class GUI implements ActionListener {
 
 
 	//get the image of each piece
-	private ImageIcon getImageIcon(Piece p) throws MalformedURLException {
+	private ImageIcon getIcon(Piece p) throws MalformedURLException {
 		String image = "";
 		switch (p.getType()) {
 			case VOID -> {
