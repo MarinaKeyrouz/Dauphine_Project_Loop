@@ -88,15 +88,15 @@ public class GUI implements ActionListener {
 				button.setBackground(Color.white);
 				button.setOpaque(true);
 				button.setBorderPainted(false);
-				button.setBackground(Color.white);
+				//button.setBackground(Color.white);
 
 				buttonspanel.add(button);
 
-				buttonspanel.setBackground(Color.white);
+				//buttonspanel.setBackground(Color.white);
 
 				button.addActionListener(this);
 				buttons[i][j] = button;
-				buttons[i][j].setBackground(Color.white);
+				//buttons[i][j].setBackground(Color.white);
 
 			}
 		}

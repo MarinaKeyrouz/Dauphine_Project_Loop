@@ -2,11 +2,12 @@ package Code.Components;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
- * 
+ *
  * Type of the piece enum
- * 
+ *
  */
 public enum PieceType {
     VOID(0) {
@@ -23,7 +24,6 @@ public enum PieceType {
             temp.add(Orientation.NORTH);
             return temp;
         }
-
     },
     ONECONN(1) {
         public Orientation getOrientation(Orientation orientation) {
@@ -35,12 +35,16 @@ public enum PieceType {
             switch (orientation) {
                 case NORTH:
                     connectors.add(Orientation.NORTH);
+                    break;
                 case EAST:
                     connectors.add(Orientation.EAST);
+                    break;
                 case WEST:
                     connectors.add(Orientation.WEST);
+                    break;
                 case SOUTH:
                     connectors.add(Orientation.SOUTH);
+                    break;
             }
             return connectors;
         }
@@ -69,9 +73,11 @@ public enum PieceType {
                 case NORTH, SOUTH:
                     connectors.add(Orientation.NORTH);
                     connectors.add(Orientation.SOUTH);
+                    break;
                 case EAST, WEST:
                     connectors.add(Orientation.EAST);
                     connectors.add(Orientation.WEST);
+                    break;
             }
             return connectors;
         }
@@ -95,18 +101,22 @@ public enum PieceType {
                     connectors.add(Orientation.NORTH);
                     connectors.add(Orientation.WEST);
                     connectors.add(Orientation.EAST);
+                    break;
                 case EAST:
                     connectors.add(Orientation.NORTH);
                     connectors.add(Orientation.EAST);
                     connectors.add(Orientation.SOUTH);
+                    break;
                 case SOUTH:
                     connectors.add(Orientation.EAST);
                     connectors.add(Orientation.SOUTH);
                     connectors.add(Orientation.WEST);
+                    break;
                 case WEST:
                     connectors.add(Orientation.NORTH);
                     connectors.add(Orientation.WEST);
                     connectors.add(Orientation.SOUTH);
+                    break;
             }
             return connectors;
         }
@@ -126,7 +136,12 @@ public enum PieceType {
         }
 
         public LinkedList<Orientation> setConnectorsList(Orientation orientation) {
-            return null;
+            LinkedList<Orientation> connectors = new LinkedList<Orientation>();
+            connectors.add(Orientation.NORTH);
+            connectors.add(Orientation.EAST);
+            connectors.add(Orientation.SOUTH);
+            connectors.add(Orientation.WEST);
+            return connectors;
         }
 
         public ArrayList<Orientation> getListOfPossibleOri() {
@@ -146,15 +161,19 @@ public enum PieceType {
                 case NORTH:
                     connectors.add(Orientation.NORTH);
                     connectors.add(Orientation.EAST);
+                    break;
                 case EAST:
                     connectors.add(Orientation.EAST);
                     connectors.add(Orientation.SOUTH);
+                    break;
                 case SOUTH:
                     connectors.add(Orientation.SOUTH);
                     connectors.add(Orientation.WEST);
+                    break;
                 case WEST:
                     connectors.add(Orientation.WEST);
                     connectors.add(Orientation.NORTH);
+                    break;
             }
             return connectors;
         }

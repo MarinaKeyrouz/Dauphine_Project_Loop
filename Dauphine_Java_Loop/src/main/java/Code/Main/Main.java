@@ -65,8 +65,13 @@ public class Main {
             Grid g = new Grid(width, height);
             Grid grid = Generator.generator(outputFile,g );
             System.out.println(grid);
-            Grid grid2 = Checker.readGrid(outputFile);
-            GUI gui = new GUI(grid);
+            Grid grid2 = Checker.readGrid("C:\\Users\\tinta\\Documents\\COURS M1\\Java avancé\\Infinity v2\\Dauphine_Project_Loop\\Files\\LevelTestSolved.txt");
+            System.out.println(grid2);
+            System.out.println(Checker.isSolved(grid2));
+            Grid grid3 = Checker.readGrid("C:\\Users\\tinta\\Documents\\COURS M1\\Java avancé\\Infinity v2\\Dauphine_Project_Loop\\Files\\LevelTestAlmostSolved.txt");
+            System.out.println(grid3);
+            System.out.println(Checker.isWellConnectedAfterMove(1, 1,grid3, 1));
+            //GUI gui = new GUI(grid);
 
             /*
             System.out.println(grid);
@@ -107,9 +112,9 @@ public class Main {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp( "phineloopgen", options );         
             System.exit(1); // exit with error      
-    } catch (MalformedURLException e) {
+    }/* catch (MalformedURLException e) {
         e.printStackTrace();
-    } catch (FileNotFoundException e) {
+    }*/ catch (FileNotFoundException e) {
         e.printStackTrace();
     }
         //System.exit(0); // exit with success
