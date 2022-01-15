@@ -23,7 +23,7 @@ public class GUI implements ActionListener {
 	private JFrame frame;
 	private int wp = 100; //width of the piece
 	private int hp = 100; //height of the piece
-	JButton[][] places;
+	JButton[][] buttons;
 	Grid grid;
 	/**
 	 *
@@ -33,11 +33,6 @@ public class GUI implements ActionListener {
 	 *             if there is a problem with the gui
 	 */
 	public static void startGUI(String inputFile) throws NullPointerException {
-		// We have to check that the grid is generated before to launch the GUI
-		// construction
-		Runnable task = new Runnable() {
-			public void run() {
-
 				try {
 					Grid grid = Checker.readGrid(inputFile);
 					SwingUtilities.invokeLater(new Runnable() {
@@ -55,9 +50,6 @@ public class GUI implements ActionListener {
 					throw new NullPointerException("Error with input file");
 				}
 
-			}
-		};
-		new Thread(task).start();
 	}
 
 	/**
@@ -67,59 +59,77 @@ public class GUI implements ActionListener {
 	 */
 	public GUI(Grid grid) throws MalformedURLException {
 		this.grid = grid;
-		initialize(grid);
+		this.frame = new JFrame("Infinity Loops");
+		this.buttons = new JButton[grid.getHeight()][grid.getWidth()];
+		initializeRandomGrid();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 *
-	 * @throws IOException
-	 */
-	private void initialize(Grid grid) throws MalformedURLException {
-		frame = new JFrame("Infinity Loops");
+
+	private void initialize() {
+
+	}
+
+	//method to create a gui for a grid
+	private void initializeRandomGrid() throws MalformedURLException {
+		//initialize frame
 		frame.setVisible(true);
 		frame.getContentPane().setBackground( Color.white );
 		frame.setSize(grid.getWidth() * wp,grid.getHeight() * hp);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		places = new JButton[grid.getHeight()][grid.getWidth()];
-		JPanel panelForButtons = new JPanel();
-		panelForButtons.setLayout(new GridLayout(grid.getHeight(), grid.getWidth()));
+		//panel for buttons
+		JPanel buttonspanel = new JPanel();
+		buttonspanel.setLayout(new GridLayout(grid.getHeight(), grid.getWidth()));
 
-		for (int line = 0; line < grid.getHeight(); line++) {
-			for (int column = 0; column < grid.getWidth(); column++) {
+		for (int i = 0; i < grid.getHeight(); i++) {
+			for (int j = 0; j < grid.getWidth(); j++) {
 
-				Icon icon = new ImageIcon(this.getImageIcon(grid.getPiece(line, column)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
-				JButton temp = new JButton(icon);
-				temp.setBackground(Color.white);
-				temp.setOpaque(true);
-				temp.setBorderPainted(false);
-				temp.setBackground(Color.white);
+				ImageIcon icon = new ImageIcon(this.getImageIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
+				JButton button = new JButton(icon);
+				button.setBackground(Color.white);
+				button.setOpaque(true);
+				button.setBorderPainted(false);
+				button.setBackground(Color.white);
 
-				panelForButtons.add(temp);
+				buttonspanel.add(button);
 
-				panelForButtons.setBackground(Color.white);
+				buttonspanel.setBackground(Color.white);
 
-				temp.addActionListener(this);
-				places[line][column] = temp;
-				places[line][column].setBackground(Color.white);
+				button.addActionListener(this);
+				buttons[i][j] = button;
+				buttons[i][j].setBackground(Color.white);
 
 			}
 		}
 		frame.setBackground(Color.white);
-		frame.add(panelForButtons);
+		frame.add(buttonspanel);
 		frame.setVisible(true);
 	}
+	//rotate each piece
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for (int i = 0; i < grid.getHeight(); i++) {
+			for (int j = 0; j < grid.getWidth(); j++) {
+				//we get the piece that was clicked on
+				if (e.getSource() == buttons[i][j]) {
+					//set the piece that was clicked on to the rotated piece in the grid
+					grid.getPiece(i, j).turn();
+					try {
+						//for each piece that was clicked on we get the image of it and put it in the buttons
+						ImageIcon icon = new ImageIcon(this.getImageIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
+						buttons[i][j].setIcon(icon);
+					} catch (MalformedURLException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		}
+		frame.repaint();
+	}
 
-	/**
-	 * Display the correct image from the piece's type and orientation
-	 *
-	 * @param p
-	 *            the piece
-	 * @return an image icon
-	 */
+
+	//get the image of each piece
 	private ImageIcon getImageIcon(Piece p) throws MalformedURLException {
 		String image = "";
-//		System.out.println(p.getType());
 		switch (p.getType()) {
 			case VOID -> {
 				image = "Dauphine_Java_Loop/src/main/resources/icons/background.png";
@@ -163,21 +173,5 @@ public class GUI implements ActionListener {
 		return new ImageIcon(image);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < grid.getHeight(); i++) {
-			for (int j = 0; j < grid.getWidth(); j++) {
-				if (e.getSource() == places[i][j]) {
-					grid.getPiece(i, j).turn();
-					try {
-						Icon icon = new ImageIcon(this.getImageIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
-						places[i][j].setIcon(icon);
-					} catch (MalformedURLException ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		}
-		frame.repaint();
-	}
+
 }

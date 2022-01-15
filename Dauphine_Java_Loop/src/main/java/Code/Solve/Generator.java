@@ -17,45 +17,96 @@ import Code.GUI.Grid;
 
 public class Generator {
 
-	private static Grid filledGrid;
+	//This method copy a grid into another grid
+	public static int[] copyGrid(Grid copy, Grid input, int i, int j) {
+		Piece p;
+		int h = input.getHeight();
+		int w = input.getWidth();
+	//if both grids don't have the same height we change the size of our copied file to match the input
+		if (input.getHeight() != copy.getHeight())
+			h = copy.getHeight() + i;
+		if (input.getWidth() != copy.getWidth())
+			w = copy.getWidth() + j;
 
-	public static Grid levelgenerator(String fname, int w, int h, int n) {
-		Random random = new Random();
-		Grid grid = new Grid(w, h, n);
-		int nbc = 0;
-		int i1 = h * 2 - 1;
-		int[][] lines = new int[h * 2 - 1][w];
+		int tmpi = 0;// temporary variable to stock the last index
+		int tmpj = 0;
 
-		for (int i = 0; i < h * 2 - 1; i++) {
+		for (int x = i; x < h; x++) {
+			for (int y = j; y < w; y++) {
+				p = copy.getPiece(x - i, y - j);
+				input.setPiece(x, y, new Piece(x, y, p.getType(), p.getOrientation()));
+				tmpj = y;
+			}
+			tmpi = x;
+		}
+		return new int[] { tmpi, tmpj };
+	}
+
+	//this method write a grid into a file
+	public static void writeGrid(String name, Grid grid) {
+		try {
+			//initialize FileWriter
+			FileWriter myWriter = new FileWriter(name);
+			//Write the size (width and height) of the grid first
+			myWriter.write(grid.getWidth()+"\n");
+			myWriter.write(grid.getHeight()+"\n");
+			Piece[][] pieces = grid.getPieces();
+			//Loop over the grid
+			for(int i = 0; i < grid.getHeight(); i++) {
+				for (int j = 0; j < grid.getWidth(); j++) {
+					//for each piece in the grid write the value of it in the file
+					String value = Piece.getIntTypeFromPiece(pieces[i][j])+" "+pieces[i][j].getOrientation().getValue()+"\n";
+					myWriter.write(value);
+				}
+			}
+			myWriter.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//this method generate a new solvable grid
+	public static Grid generator(String fname, Grid grid) {
+		Random r = new Random();
+		//get the dimensions from the grid
+		int h =grid.getHeight();
+		int w =grid.getWidth();
+		int nbc = grid.getNbcc();
+
+		//set the new Height
+		int newHeight = h * 2 - 1;
+		int[][] input = new int[newHeight][w];
+
+		for (int i = 0; i < newHeight; i++) {
 			for (int j = 0; j < w; j++) {
-				if (random.nextInt(0, 2) == 1) {
-					lines[i][j] = 1;
+				if (r.nextInt(0, 2) == 1) {
+					input[i][j] = 1;
 				} else {
-					lines[i][j] = 0;
+					input[i][j] = 0;
 				}
 			}
 		}
 
-		for (int i = 0; i < h * 2 - 1; i+=2) {
+		for (int i = 0; i < newHeight; i+=2) {
 			for (int j = 0; j < w; j++) {
 				boolean north = false;
 				boolean east = false;
 				boolean south = false;
 				boolean west = false;
 				int nbConnectors = 0;
-				if (j < w - 1 && lines[i][j] == 1) {
+				if (j < w - 1 && input[i][j] == 1) {
 					west = true;
 					nbConnectors++;
 				}
-				if (i > 0 && lines[i - 1][j] == 1) {
+				if (i > 0 && input[i - 1][j] == 1) {
 					north = true;
 					nbConnectors++;
 				}
-				if (i < h * 2 - 2 && lines[i + 1][j] == 1) {
+				if (i < h * 2 - 2 && input[i + 1][j] == 1) {
 					south = true;
 					nbConnectors++;
 				}
-				if (j > 0 && lines[i][j - 1] == 1) {
+				if (j > 0 && input[i][j - 1] == 1) {
 					east = true;
 					nbConnectors++;
 				}
@@ -81,72 +132,11 @@ public class Generator {
 						piece = new Piece(i, j, PieceType.FOURCONN, Orientation.NORTH);
 						break;
 				}
-				piece.setOrientation(random.nextInt(0, 4));
+				piece.setOrientation(r.nextInt(0, 4));
 				grid.setPiece(i/2, j, piece);
 			}
 		}
 		writeGrid(fname, grid);
 		return grid;
 	}
-
-
-	/**
-	 * @param inputGrid
-	 *            file name
-	 * @throws IOException
-	 *             - if an I/O error occurs.
-	 */
-
-
-	public static void writeGrid(String fileName, Grid inputGrid) {
-		try {
-			FileWriter myWriter = new FileWriter(fileName);
-			myWriter.write(inputGrid.getWidth()+"\n");
-			myWriter.write(inputGrid.getHeight()+"\n");
-			Piece[][] pieces = inputGrid.getPieces();
-			for(int i = 0; i < inputGrid.getHeight(); i++) {
-				for (int j = 0; j < inputGrid.getWidth(); j++) {
-					StringBuilder str = new StringBuilder();
-					str.append(Piece.getIntTypeFromPiece(pieces[i][j])+" "+pieces[i][j].getOrientation().getValue()+"\n");
-					myWriter.write(str.toString());
-				}
-			}
-			myWriter.close();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static int[] copyGrid(Grid filledGrid, Grid inputGrid, int i, int j) {
-		Piece p;
-		int hmax = inputGrid.getHeight();
-		int wmax = inputGrid.getWidth();
-
-		if (inputGrid.getHeight() != filledGrid.getHeight())
-			hmax = filledGrid.getHeight() + i; // we must adjust hmax to have the height of the original grid
-		if (inputGrid.getWidth() != filledGrid.getWidth())
-			wmax = filledGrid.getWidth() + j;
-
-		int tmpi = 0;// temporary variable to stock the last index
-		int tmpj = 0;
-
-		// DEBUG System.out.println("copyGrid : i =" + i + " & j = " + j);
-		// DEBUG System.out.println("hmax = " + hmax + " - wmax = " + wmax);
-		for (int x = i; x < hmax; x++) {
-			for (int y = j; y < wmax; y++) {
-				// DEBUG System.out.println("x = " + x + " - y = " + y);
-				p = filledGrid.getPiece(x - i, y - j);
-				// DEBUG System.out.println("x = " + x + " - y = " +
-				// y);System.out.println(p);
-				inputGrid.setPiece(x, y, new Piece(x, y, p.getType(), p.getOrientation()));
-				// DEBUG System.out.println("x = " + x + " - y = " +
-				// y);System.out.println(inputGrid.getPiece(x, y));
-				tmpj = y;
-			}
-			tmpi = x;
-		}
-		//DEBUGSystem.out.println("tmpi =" + tmpi + " & tmpj = " + tmpj);
-		return new int[] { tmpi, tmpj };
-	}
-
 }

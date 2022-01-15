@@ -11,6 +11,8 @@ import Code.Components.PieceType;
  * 
  *
  */
+
+
 public class Grid {
 	private int width; // j
 	private int height; // i

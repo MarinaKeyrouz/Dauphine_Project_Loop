@@ -21,6 +21,7 @@ public class DisplayUnicode {
 	 */
 	private DisplayUnicode() {
 		buildTable();
+
 	}
 
 	/**

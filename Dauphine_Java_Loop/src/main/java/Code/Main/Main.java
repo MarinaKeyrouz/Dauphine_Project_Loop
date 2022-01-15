@@ -52,7 +52,7 @@ public class Main {
                 
     try{    
         if( cmd.hasOption( "g" ) ) {
-            System.out.println("Running phineloop generator.");
+            System.out.println("Running solvable generator");
             String[] gridformat = cmd.getOptionValue( "g" ).split("x");
             width = Integer.parseInt(gridformat[0]);
             height = Integer.parseInt(gridformat[1]); 
@@ -62,10 +62,10 @@ public class Main {
             // generate grid and store it to outputFile...
             //...
 
-
-            Grid grid = Generator.levelgenerator("Files/loop.txt", 4, 4, 0);
+            Grid g = new Grid(width, height);
+            Grid grid = Generator.generator(outputFile,g );
             System.out.println(grid);
-            Grid grid2 = Checker.readGrid("Files/loop.txt");
+            Grid grid2 = Checker.readGrid(outputFile);
             GUI gui = new GUI(grid);
 
             /*
