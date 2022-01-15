@@ -77,7 +77,7 @@ public class GUI implements ActionListener {
 
 
 		//panel for buttons
-		JOptionPane.showMessageDialog(frame, "You Win!", "Winner winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(frame, "You Win!", "Winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	//method to create a gui for a grid
@@ -121,12 +121,13 @@ public class GUI implements ActionListener {
 	}
 
 
-	//rotate each piece
+	//rotate each piece using an action
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (int i = 0; i < grid.getHeight(); i++) {
 			for (int j = 0; j < grid.getWidth(); j++) {
 				//we get the piece that was clicked on
+				boolean done=false;
 				if (e.getSource() == buttons[i][j]) {
 					//set the piece that was clicked on to the rotated piece in the grid
 					grid.getPiece(i, j).turn();
@@ -135,14 +136,14 @@ public class GUI implements ActionListener {
 						ImageIcon icon = new ImageIcon(this.getIcon(grid.getPiece(i, j)).getImage().getScaledInstance(wp, hp, Image.SCALE_SMOOTH));
 						buttons[i][j].setIcon(icon);
 						check = new Checker();
-						boolean done = check.isSolved(grid);
-						if(done ==true){
-//						if(check.isWellConnectedAfterMove(i,j,grid,1)){
-							JOptionPane.showMessageDialog(frame, "You Win!", "Winner winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
-							break;
-						}
+						done= check.isSolved(grid);
+
 					} catch (MalformedURLException ex) {
 						ex.printStackTrace();
+					}
+					if(done ==true){
+						JOptionPane.showMessageDialog(frame, "You Win!", "Winner winner chicken dinner", JOptionPane.PLAIN_MESSAGE);
+						break;
 					}
 				}
 			}
@@ -154,48 +155,48 @@ public class GUI implements ActionListener {
 
 	//get the image of each piece
 	private ImageIcon getIcon(Piece p) throws MalformedURLException {
-		String image = "";
+		String img = "";
 		switch (p.getType()) {
 			case VOID -> {
-				image = "Dauphine_Java_Loop/src/main/resources/icons/background.png";
+				img = "Dauphine_Java_Loop/src/main/resources/icons/background.png";
 			}
 			case ONECONN -> {
 				switch (p.getOrientation()) {
-					case NORTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/1.png";
-					case EAST -> image = "Dauphine_Java_Loop/src/main/resources/icons/2.png";
-					case SOUTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/3.png";
-					case WEST -> image = "Dauphine_Java_Loop/src/main/resources/icons/4.png";
+					case NORTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/1.png";
+					case EAST -> img = "Dauphine_Java_Loop/src/main/resources/icons/2.png";
+					case SOUTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/3.png";
+					case WEST -> img = "Dauphine_Java_Loop/src/main/resources/icons/4.png";
 				}
 			}
 			case BAR -> {
 				switch (p.getOrientation()) {
-					case NORTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/5.png";
-					case EAST -> image = "Dauphine_Java_Loop/src/main/resources/icons/6.png";
+					case NORTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/5.png";
+					case EAST -> img = "Dauphine_Java_Loop/src/main/resources/icons/6.png";
 				}
 			}
 			case TTYPE -> {
 				switch (p.getOrientation()) {
-					case NORTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/7.png";
-					case EAST -> image = "Dauphine_Java_Loop/src/main/resources/icons/8.png";
-					case SOUTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/9.png";
-					case WEST -> image = "Dauphine_Java_Loop/src/main/resources/icons/10.png";
+					case NORTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/7.png";
+					case EAST -> img = "Dauphine_Java_Loop/src/main/resources/icons/8.png";
+					case SOUTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/9.png";
+					case WEST -> img = "Dauphine_Java_Loop/src/main/resources/icons/10.png";
 				}
 			}
 			case FOURCONN -> {
 				if (p.getOrientation() == Orientation.NORTH) {
-					image = "Dauphine_Java_Loop/src/main/resources/icons/11.png";
+					img = "Dauphine_Java_Loop/src/main/resources/icons/11.png";
 				}
 			}
 			case LTYPE -> {
 				switch (p.getOrientation()) {
-					case NORTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/12.png";
-					case EAST -> image = "Dauphine_Java_Loop/src/main/resources/icons/13.png";
-					case SOUTH -> image = "Dauphine_Java_Loop/src/main/resources/icons/14.png";
-					case WEST -> image = "Dauphine_Java_Loop/src/main/resources/icons/15.png";
+					case NORTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/12.png";
+					case EAST -> img = "Dauphine_Java_Loop/src/main/resources/icons/13.png";
+					case SOUTH -> img = "Dauphine_Java_Loop/src/main/resources/icons/14.png";
+					case WEST -> img = "Dauphine_Java_Loop/src/main/resources/icons/15.png";
 				}
 			}
 		}
-		return new ImageIcon(image);
+		return new ImageIcon(img);
 	}
 
 
