@@ -7,14 +7,14 @@ import java.util.LinkedList;
  * Handling of pieces with general functions
  */
 public class Piece {
-	private int posX;// j
-	private int posY;// i
+	private int posX;
+	private int posY;
 	private PieceType type;
 	private Orientation orientation;
 	private LinkedList<Orientation> connectors;
 	private ArrayList<Orientation> possibleOrientations;
 
-	private boolean isFixed;
+	private boolean isFixed; // true si la piece a plusieurs orientation
 
 	public Piece(int posY, int posX) {
 		this.posX = posX;
@@ -22,7 +22,7 @@ public class Piece {
 		this.type = PieceType.VOID;
 		this.orientation = type.getOrientation(Orientation.NORTH);
 		this.connectors = type.setConnectorsList(Orientation.NORTH);
-		this.isFixed = false; // Is there any orientation for the piece
+		this.isFixed = false;
 		this.possibleOrientations = type.getListOfPossibleOri();
 	}
 

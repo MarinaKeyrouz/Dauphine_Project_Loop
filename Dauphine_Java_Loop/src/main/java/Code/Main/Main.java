@@ -65,7 +65,7 @@ public class Main {
             Grid g = new Grid(width, height);
             Grid grid = Generator.generator(outputFile,g );
             System.out.println(grid);
-            Grid grid2 = Checker.readGrid(outputFile);
+            Grid grid2 = Checker.buildGrid(outputFile);
             GUI gui = new GUI(grid);
 
             /*

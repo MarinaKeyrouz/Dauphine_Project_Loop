@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 public class Checker {
-    public static Grid readGrid(String inputFile) throws FileNotFoundException {
+    public static Grid buildGrid(String inputFile) throws FileNotFoundException {
         BufferedReader fr = new BufferedReader(new FileReader(inputFile));
         try {
             Grid grille = new Grid(Integer.parseInt(fr.readLine()),Integer.parseInt(fr.readLine()));

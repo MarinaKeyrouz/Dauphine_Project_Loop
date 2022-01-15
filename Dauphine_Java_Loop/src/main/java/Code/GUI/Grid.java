@@ -12,27 +12,27 @@ import Code.Components.PieceType;
  *
  */
 
-
 public class Grid {
 	private int width; // j
 	private int height; // i
 	private int nbcc = -1;
 	private Piece[][] pieces;
 
+	//constructeur qui prend juste les sized de width et height
 	public Grid(int width, int height) {
 		this.width = width;
 		this.height = height;
 		pieces = new Piece[height][width];
 	}
 
-	// Constructor with specified number of connected component
+	// Constructeur qui prend un nombre exact the pieces connecte
 	public Grid(int width, int height, int nbcc) {
 		this.width = width;
 		this.height = height;
 		this.nbcc = nbcc;
 		pieces = new Piece[height][width];
 	}
-
+	//setters and getters
 	public int getWidth() {
 		return width;
 	}
@@ -80,6 +80,8 @@ public class Grid {
 	 * @param column
 	 * @return true if the case is a corner
 	 */
+
+
 	public boolean isCorner(int line, int column) {
 		if (line == 0) {
 			if (column == 0)
@@ -105,6 +107,8 @@ public class Grid {
 	 * @param column
 	 * @return true if the case is a corner
 	 */
+
+
 	public boolean isBorderLine(int line, int column) {
 		if (line == 0 && column > 0 && column < this.getWidth() - 1) {
 			return true;
@@ -122,6 +126,7 @@ public class Grid {
 	 * @param column
 	 * @return true if the case is a corner
 	 */
+
 	public boolean isBorderColumn(int line, int column) {
 		if (column == 0 && line > 0 && line < this.getHeight() - 1) {
 			return true;
@@ -139,6 +144,7 @@ public class Grid {
 	 *            piece
 	 * @return true if there is a neighbour for all connectors
 	 */
+
 	public boolean hasNeighbour(Piece p) {
 		for (Orientation ori : p.getConnectors()) {
 			int oppPieceY = ori.getOpposedPieceCoordinates(p)[0];// i
@@ -163,6 +169,7 @@ public class Grid {
 	 *            the piece
 	 * @return true if there is a fixed piece for each connector
 	 */
+
 	public boolean hasFixedNeighbour(Piece p) {
 		boolean bool = false;
 		for (Orientation ori : p.getConnectors()) {
@@ -199,6 +206,7 @@ public class Grid {
 	 *            the piece
 	 * @return true if there is a fixed piece for each connector
 	 */
+
 	public boolean hasAtLeast1FixedNeighbour(Piece p) {
 		for (Orientation ori : p.getConnectors()) {
 			int oppPieceY = ori.getOpposedPieceCoordinates(p)[0];// i
@@ -269,6 +277,7 @@ public class Grid {
 	 * @param p
 	 * @return the number of neighbors
 	 */
+
 	public int numberOfFixedNeibours(Piece p) {
 		int X = p.getPosX();
 		int Y = p.getPosY();
@@ -291,6 +300,7 @@ public class Grid {
 	 * @param
 	 * @return false if a piece has no neighbor
 	 */
+
 	public boolean allPieceHaveNeighbour() {
 
 		for (Piece[] ligne : this.getAllPieces()) {
@@ -315,6 +325,7 @@ public class Grid {
 	 *            the current piece
 	 * @return the piece or null if p is the last piece
 	 */
+
 	public Piece getNextPiece(Piece p) {
 		int i = p.getPosY();
 		int j = p.getPosX();
@@ -338,6 +349,7 @@ public class Grid {
 	 *            the current piece
 	 * @return the piece or null if p is the last piece
 	 */
+
 	public Piece getNextPieceInv(Piece p) {
 
 		int i = p.getPosY();
@@ -350,9 +362,7 @@ public class Grid {
 			} else {
 				return null;
 			}
-
 		}
-
 		return p;
 
 	}
@@ -364,6 +374,7 @@ public class Grid {
 	 * @param ori
 	 * @return true if a connector of a piece is connected
 	 */
+
 	public boolean isConnected(Piece p, Orientation ori) {
 		int oppPieceY = ori.getOpposedPieceCoordinates(p)[0];// i
 		int oppPieceX = ori.getOpposedPieceCoordinates(p)[1];// j
@@ -387,6 +398,7 @@ public class Grid {
 	 * @param p
 	 * @return true if a connector of a piece is connected
 	 */
+
 	public boolean isTotallyConnected(Piece p) {
 		if (p.getType() != PieceType.VOID) {
 			for (Orientation connector : p.getConnectors()) {
@@ -405,6 +417,7 @@ public class Grid {
 	 * @param column
 	 * @return true if a connector of a piece is connected
 	 */
+
 	public boolean isValidOrientation(int line, int column) {
 
 		Piece tn = this.topNeighbor(this.getPiece(line, column));
@@ -486,6 +499,7 @@ public class Grid {
 	 * @param p
 	 * @return the neighbor or null if no neighbor
 	 */
+
 	public Piece leftNeighbor(Piece p) {
 
 		if (p.getPosX() > 0) {
@@ -502,6 +516,7 @@ public class Grid {
 	 * @param p
 	 * @return the neighbor or null if no neighbor
 	 */
+
 	public Piece topNeighbor(Piece p) {
 
 		if (p.getPosY() > 0) {
@@ -518,6 +533,7 @@ public class Grid {
 	 * @param p
 	 * @return the neighbor or null if no neighbor
 	 */
+
 	public Piece rightNeighbor(Piece p) {
 
 		if (p.getPosX() < this.getWidth() - 1) {
@@ -534,6 +550,7 @@ public class Grid {
 	 * @param p
 	 * @return the neighbor or null if no neighbor
 	 */
+
 	public Piece bottomNeighbor(Piece p) {
 
 		if (p.getPosY() < this.getHeight() - 1) {

@@ -55,10 +55,7 @@ public enum Orientation {
 			return EAST;
 		}
 	};
-	
-    /* Implement all the possible orientations and
-	 *  required methods to rotate
-	 */
+
 	public final int value;
 	Orientation(int value) {
 		this.value = value;

@@ -32,9 +32,12 @@ public class GUI implements ActionListener {
 	 * @throws IOException
 	 *             if there is a problem with the gui
 	 */
+
 	public static void startGUI(String inputFile) throws NullPointerException {
+		Runnable task = new Runnable() {
+			public void run() {
 				try {
-					Grid grid = Checker.readGrid(inputFile);
+					Grid grid = Checker.buildGrid(inputFile);
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							GUI window = null;
@@ -49,6 +52,10 @@ public class GUI implements ActionListener {
 				} catch (IOException e) {
 					throw new NullPointerException("Error with input file");
 				}
+
+			}
+		};
+		new Thread(task).start();
 
 	}
 
