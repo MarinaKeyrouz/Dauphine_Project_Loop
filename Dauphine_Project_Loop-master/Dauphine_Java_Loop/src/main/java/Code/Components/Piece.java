@@ -46,6 +46,16 @@ public class Piece {
 		this.possibleOrientations = type.getListOfPossibleOri();
 	}
 
+	public Piece(Piece p){
+		this.posX = p.getPosX();
+		this.posY = p.getPosY();
+		this.type = p.getType();
+		this.orientation = p.getOrientation();
+		this.connectors = type.setConnectorsList(Orientation.getOriFromValue(orientation.getValue()));
+		this.isFixed = p.isFixed;
+		this.possibleOrientations = (ArrayList<Orientation>) p.getPossibleOrientations().clone();
+	}
+
 	public static int getIntTypeFromPiece(Piece piece) {
 		switch (piece.getType()) {
 			case ONECONN:
@@ -197,5 +207,7 @@ public class Piece {
 		}
 		return 0;
 	}
+
+	public Piece clone(){return new Piece(this);}
 
 }

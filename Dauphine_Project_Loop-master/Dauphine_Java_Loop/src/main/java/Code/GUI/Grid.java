@@ -32,6 +32,19 @@ public class Grid {
 		this.nbcc = nbcc;
 		pieces = new Piece[height][width];
 	}
+
+	//Constructeur qui prends en paramètre une grille déja existante
+	public Grid(Grid grid){
+		this.width = grid.getWidth();
+		this.height = grid.getHeight();
+		this.nbcc = grid.getNbcc();
+		pieces = new Piece[height][width];
+		for (int i = 0; i<height; i++) {
+			for (int j = 0; j < width; j++) {
+				pieces[i][j] = (Piece) grid.getPieces()[i][j].clone();
+			}
+		}
+	}
 	//setters and getters
 	public int getWidth() {
 		return width;
@@ -598,5 +611,28 @@ public class Grid {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * return a list of grid with the piece piece in several orientation.
+	 * @param i
+	 * @param j
+	 * @return ArrayList of Grid with the piece in different orientations
+	 */
+	public ArrayList<Grid> expand(int i, int j){
+		ArrayList<Grid> succ = new ArrayList<Grid>();
+		Piece piece = this.getPiece(i,j);
+		if (!piece.getType().equals(PieceType.VOID)){
+			for (Orientation o : piece.getPossibleOrientations()){
+				Grid tmp = this.clone();
+				tmp.getPiece(i,j).setOrientation(o.getValue());
+				succ.add(tmp);
+			}
+		}
+		return succ;
+	}
+
+	public Grid clone(){
+		return new Grid(this);
 	}
 }
